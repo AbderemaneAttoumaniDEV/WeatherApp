@@ -1,0 +1,223 @@
+/* Réinitialisation et intégration de Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animation de transition pour les éléments */
+.fade-in {
+    /* Applique l'animation 'fadeIn' avec une durée de 0.5s et une courbe d'accélération 'ease-in-out' */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Définition de l'animation fadeIn */
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Par défaut l'élément est invisible */
+    }
+    100% {
+        opacity: 1; /* L'élément devient totalement visible à la fin de l'animation */
+    }
+}
+
+/* Animation pour faire disparaître un élément */
+@keyframes fadeOut {
+    0% {
+        opacity: 1; /* L'élément est complètement visible */
+        transform: scale(1); /* L'élément est à sa taille normale */
+    }
+    100% {
+        opacity: 0; /* L'élément devient invisible */
+        transform: scale(0.95); /* L'élément rétrécit légèrement */
+    }
+}
+
+/* Ajout d'une personnalisation pour la réactivité */
+
+/* Section pour les appareils mobiles (small screen) */
+@layer components {
+  .container {
+    /* Centrage du contenu avec des marges automatiques */
+    @apply mx-auto px-4;
+  }
+
+  /* Mobile - Taille d'écran 'sm' */
+  @screen sm {
+    /* Centrer les éléments pour une seule ville */
+    #citiesContainer {
+      @apply flex flex-col items-center justify-center w-full;
+    }
+
+    /* Style des cartes de ville sur mobile */
+    .city-card {
+      @apply mb-6 w-full max-w-xs;
+      /* Animation d'apparition de la carte de ville */
+      animation: fadeIn 0.8s ease-in-out;
+    }
+  }
+
+  /* Tablettes (portrait et paysage) - Taille d'écran 'md' */
+  @screen md {
+    #citiesContainer {
+      /* Utilisation d'un layout en flex avec des éléments centrés */
+      @apply flex flex-wrap justify-center items-center gap-6;
+    }
+
+    /* Style des cartes de ville sur tablette */
+    .city-card {
+      @apply mb-6 w-full max-w-md;
+      /* Animation d'apparition des cartes sur tablette */
+      animation: fadeIn 0.8s ease-in-out;
+    }
+  }
+
+  /* Ordinateur (PC) - Taille d'écran 'lg' */
+  @screen lg {
+    #citiesContainer {
+      /* Utilisation d'une grille fluide pour les grands écrans */
+      @apply grid gap-6 w-full;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Crée une grille fluide */
+    }
+
+    /* Style des cartes de ville sur ordinateur */
+    .city-card {
+      @apply mb-6 max-w-sm;
+      /* Animation de déplacement pour les cartes de ville sur PC */
+      animation: slideUp 0.8s ease-in-out;
+    }
+  }
+
+  /* Très grand écran - Taille d'écran 'xl' */
+  @screen xl {
+    #citiesContainer {
+      /* Utilisation d'une grille fluide adaptée aux très grands écrans */
+      @apply grid gap-6 w-full;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ajustement pour très grands écrans */
+    }
+
+    /* Style des cartes de ville sur très grand écran */
+    .city-card {
+      @apply mb-6 max-w-md;
+      /* Animation de déplacement fluide pour très grand écran */
+      animation: slideUp 0.8s ease-in-out;
+    }
+  }
+}
+
+/* Titre de l'application */
+h1 {
+    font-size: 2rem; /* Ajustement de la taille pour une meilleure visibilité sur mobile */
+}
+
+/* Carte météo */
+#map {
+    height: 250px;
+    width: 100%;
+}
+
+@media (min-width: 640px) { /* Tablettes et petits écrans */
+    #map {
+        height: 400px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #map {
+        height: 500px; /* Carte plus grande sur écran large */
+        width: 75%; /* Prend les 3/4 de l'affichage */
+    }
+}
+
+/* Forcer le body à occuper 100% de la hauteur et de la largeur */
+body, html {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Éviter le défilement si tout est ajusté pour tenir dans l'affichage */
+}
+
+/* Conteneur principal */
+.container {
+    @apply flex flex-col justify-center items-center h-full w-full p-4;;
+}
+
+/* Affichage des données météo */
+#weatherData {
+    @apply bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-lg mx-auto sm:max-w-4xl;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Effet de transformation au survol de la carte météo */
+#weatherData:hover {
+    transform: scale(1.05); /* Agrandit légèrement la carte au survol */
+}
+
+/* Alignement et espacement pour la condition météo */
+#weatherIcon {
+    @apply w-16 h-16 mx-auto;
+}
+
+/* Animation pour l'apparition du formulaire de recherche */
+#searchButton,
+#cityInput {
+    /* Applique l'animation fadeIn aux éléments de saisie */
+    animation: fadeIn 1s ease-in-out;
+    @apply p-2 text-base; /* Réduire les marges pour mobile */
+}
+
+/* Éléments de la ville et des conditions météo */
+#cityName {
+    @apply text-2xl font-semibold;
+}
+
+#weatherCondition {
+    @apply text-lg text-gray-300 mt-2;
+}
+
+#searchButton {
+    animation: fadeIn 1s ease-in-out;
+    /* Transition pour l'effet de couleur de fond du bouton */
+    transition: background-color 0.3s ease;
+}
+
+/* Effet de changement de couleur lors du survol du bouton de recherche */
+#searchButton:hover {
+    background-color: #4B8BF9; /* Changement de couleur lors du survol */
+}
+
+/* Style du pop-up d'erreur */
+#errorPopup {
+    @apply fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 hidden;
+    /* Animation d'apparition du pop-up d'erreur */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Style pour la boîte d'erreur (fond rouge et texte blanc) */
+#errorPopup .bg-red-600 {
+    @apply p-6 rounded-lg text-white flex flex-col justify-center items-center;
+    /* Animation d'apparition de la boîte d'erreur */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Style pour le message d'erreur */
+#errorMessage {
+    @apply text-center mb-4;
+}
+
+/* Style du bouton pour fermer le pop-up d'erreur */
+#closeErrorPopup {
+    @apply mt-4 bg-red-700 p-2 rounded-lg;
+    /* Transition pour l'effet de couleur de fond du bouton de fermeture */
+    transition: background-color 0.3s ease;
+}
+
+/* Effet de couleur au survol du bouton de fermeture */
+#closeErrorPopup:hover {
+    background-color: #f00; /* Le bouton devient rouge vif lors du survol */
+}
+
+/* Liste des suggestions */
+#suggestionsList {
+    max-height: 150px; /* Limite de hauteur pour éviter les débordements sur petits écrans */
+    overflow-y: auto; /* Permet le défilement si le nombre de suggestions est grand */
+}
